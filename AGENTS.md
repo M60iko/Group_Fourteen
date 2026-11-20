@@ -4,12 +4,16 @@ This file tells coding agents (Claude Code, Codex, Cursor, …) what this projec
 
 ## Team
 
-[Names and who is responsible for what, e.g. data preparation, baseline model, neural network, presentation.]
+Team Cinnamon: Marco, Aia, Maria, Rebecca.
+
+[Who is responsible for what, e.g. data preparation, baseline model, neural network, presentation.]
 
 ## Data
 
 - Sales, weather and Kiel Week data: see the [dataset documentation](https://github.com/opencampus-sh/intro-to-data-science-and-ml/blob/main/data/bakery/README.md). Load the files from `https://raw.githubusercontent.com/opencampus-sh/intro-to-data-science-and-ml/main/data/bakery/`.
-- Additional data sources: [list them with link and the variables created from them]
+- Additional data sources:
+  - Inflation in Germany: Eurostat HICP, dataset `prc_hicp_midx` (monthly, index 2015 = 100), series all items (`CP00`) and bread and cereals (`CP0111`), 01/2012 – 07/2019. Downloaded by `0_DataPreparation/inflation_germany.ipynb` into `0_DataPreparation/inflation_germany_monthly.csv`. Variables: `hicp_all_items`, `hicp_bread_cereals`, `inflation_all_items_pct`, `inflation_bread_cereals_pct`. A sales day may only use the value of an earlier month (see canvas block 6).
+  - [further sources with link and the variables created from them]
 
 ## Conventions
 
@@ -27,3 +31,11 @@ This file tells coding agents (Claude Code, Codex, Cursor, …) what this projec
 - Questions about the decision, the audiences, what counts as success, what is known in advance, how to split the data and which checks to run are the team’s to decide. If the canvas or the decision log does not settle them yet, ask; do not decide them yourself.
 - Only work inside this repository. Ask before deleting files, installing software outside the project environment or pushing to GitHub.
 - Never write passwords, API keys or personal data into files.
+
+## Agentic data science
+
+- Canvas: `CANVAS.md` (read before any analysis work; update when something is decided)
+- Glossary: `GLOSSARY.md`; decisions: `DECISIONS.md`
+- Checks: `checks/`, run with `uv run pytest checks`; experiment log: `experiments/LOG.md`
+- Tracker: local files under `issues/`
+- Data: bakery CSV files loaded from `https://raw.githubusercontent.com/opencampus-sh/intro-to-data-science-and-ml/main/data/bakery/`. Raw data is read-only.

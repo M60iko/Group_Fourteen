@@ -9,7 +9,7 @@
 
 ---
 
-## Problem
+## Problemos
 
 ### 1. Decision 👤
 <!-- Who decides what, when and how often? What happens today without this analysis? -->

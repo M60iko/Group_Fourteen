@@ -23,7 +23,7 @@
 ### 2. Questions 👤
 <!-- The analysis questions that would change the decision. For each: what the data can answer, and what it cannot. -->
 - **Q-a:** How much turnover will each product group have tomorrow?
-- **Q-b:** Which factors known in advance shift it: weekday, public and school holidays, Kiel Week, season, weather forecast, inflation, and other external events such as lockdowns?
+- **Q-b:** Which factors known at closing time help predict tomorrow's turnover, such as weekday, public and school holidays, season and today's weather? Check Kiel Week availability and inflation under Open questions.
 - **The data cannot answer:** real demand on sold-out days (turnover is what was sold); the effect of prices or promotions (not in the data); unit quantities; the effect of lockdowns or similar shocks, because the data covers 2013 – 2018 and contains none.
 
 ### 3. Audiences 👤
@@ -52,13 +52,21 @@
 ### 6. Known in advance 👤
 <!-- What information is available at the moment the result is needed? Everything else is leakage. -->
 - **Moment of prediction:** closing time of the day before.
-- **Known:** sales of all groups up to and including today; tomorrow's calendar (weekday, month, public holidays, school holidays, Kiel Week); whether seasonal bread is on offer; tomorrow's weather forecast; inflation of an earlier month (the current month is not yet published; proposed delay: 1 month, to be confirmed).
-- **Stand-in:** the data only has observed weather, used as a stand-in for the forecast. This is slightly optimistic and must be named as a limit.
+- **Date:** derive weekday, month and season from the date being forecast. That date is already known at closing time.
+- **Holidays:** use Schleswig-Holstein public and school holiday calendars available at closing time. The sources are open.
+- **Kiel Week:** the available data indicates whether Kiel Week is taking place on each historical date. Using tomorrow's flag requires confirming that it is available at closing time.
+- **Product group:** use the requested `Warengruppe`, which is known before forecasting. For group 6, use offer status known at closing time to decide whether to forecast. Historical offer status still needs a source or a team-approved rule.
+- **Weather and temperature:** use today's observed conditions and temperature available at closing time. Tomorrow's forecast is unavailable.
+- **Sales history:** sales through closing time are available for the next-day variant, including the same-weekday baseline.
 - **Not known (leakage):** tomorrow's sales of any group, and anything computed from them (unshifted rolling means, totals that include tomorrow).
 - **Kaggle variant:** no sales after 31.07.2018 are known, so recent sales cannot be features.
 
 ### 7. Data decisions 👤
 <!-- Joins, missing values, encodings, exclusions, each with a reason. Link the entries in DECISIONS.md. -->
+- **Agreed:** use the date split in block 4, forecast seasonal bread only when offered, use today's observed weather, and use Schleswig-Holstein as the holiday scope. Feature builders and product group owners are in the [decision log](DECISIONS.md#2026-11-27-feature-and-product-group-ownership).
+- **Proposed for approval:** preserve sales row coverage by joining weather on the day before the forecast date. Join the Kiel Week flag on the forecast date if its availability at closing time is confirmed.
+- **Open:** holiday sources, historical offer status, absent sales and daily-total coverage, weather gaps and encoding, baseline fallback, and Kaggle external-data availability. See the [data fact sheet](docs/data-fact-sheet.md#open-decisions-and-proposed-checks) for profiling results.
+- **Leakage check for implementation:** fit any learned imputations, scalers or encoders on training data only. Any weather gap handling must use information available at the cutoff. Keep future turnover and any aggregates that include it out of the inputs.
 
 ### 8. Checks 🤖
 <!-- Checkpoints and the invariants that must hold at each (row counts, keys, date ranges, IDs, baseline). Link checks/. -->
@@ -82,9 +90,10 @@
 <!-- Parking lot. Each item names who resolves it. -->
 - Which error costs more: baking too much or too little? (client, via the team)
 - Lockdowns and similar shocks: the data contains none, so the model cannot know their effect. How should the forecast be used in such periods? (team, with the client)
-- Public and school holidays are not in the dataset: which source do we use? (team, before /explore-data)
-- Who in the team is responsible for which part? (team)
-- Inflation: which delay (1 month proposed), and is it used as a feature, to convert turnover into real turnover, or both? (team)
+- Which sources should we use for Schleswig-Holstein public and school holidays? (Aia, with the team)
+- Can we obtain tomorrow's binary Kiel Week flag by closing time? (Aia, with the team)
+- How should we handle missing weather rows and blank weather fields? (Rebecca, with the team)
+- Should we use inflation as a feature or to deflate turnover? If it becomes a feature, which HICP series and release rule should we use? The value must have been published by closing time. (Maria, with the team)
 
 ## Decision log
 See `DECISIONS.md`.

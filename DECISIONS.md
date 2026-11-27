@@ -2,6 +2,25 @@
 
 Newest first. One entry per decision taken at a stop point.
 
+## 2026-11-27: Feature and product group ownership
+
+**Canvas blocks:** [6 (known in advance)](CANVAS.md#6-known-in-advance-) and [7 (data decisions)](CANVAS.md#7-data-decisions-)
+
+**Decision:** The team assigned feature implementation and product group responsibility as follows.
+
+| Owner | Builds | Responsible for |
+|---|---|---|
+| Maria | Inflation | 4 Confectionery, 5 Cakes |
+| Rebecca | Weather and temperature | 1 Bread, 6 Seasonal bread |
+| Marco | Product group | 3 Croissants |
+| Aia | Holidays, date and Kiel Week | 2 Rolls |
+
+**Reason:** Assign a builder to each feature and an owner to each of the six product groups.
+
+**Decided by:** Marco, Aia, Maria, Rebecca.
+
+**Leakage review:** Use today's observed weather and temperature at closing time. Holiday scope is Schleswig-Holstein. The available Kiel Week data is a historical binary indicator, and next-day availability still needs confirmation. Missing weather handling and whether to use inflation remain open in the [canvas](CANVAS.md#open-questions). Maria owns the inflation work if the team proceeds with it.
+
 ## 2026-11-20: Inflation is added as a data source
 **Canvas block:** 2, 5, 6
 **Decision:** Monthly inflation for Germany (Eurostat HICP, all items and bread and cereals) is added as an additional data source.
@@ -11,6 +30,7 @@ Newest first. One entry per decision taken at a stop point.
 
 ## 2026-11-20: What is known in advance
 **Canvas block:** 6
+**Updated 2026-11-27:** The weather and Kiel Week assumptions below are superseded by the current [canvas block 6](CANVAS.md#6-known-in-advance-).
 **Decision:** Features may use sales up to and including today, tomorrow's calendar, whether seasonal bread is on offer, and the weather forecast (observed weather as a stand-in). Tomorrow's sales and anything computed from them are excluded. In the Kaggle variant no sales after 31.07.2018 are used.
 **Reason:** The forecast is made at closing time of the day before; everything else would be leakage.
 **Alternatives considered:** Leaving weather out because only observed weather exists, rejected; it is kept and named as a slightly optimistic stand-in.
